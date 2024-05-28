@@ -4,7 +4,6 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float walkSpeed = 5f;
-    public float crouchSpeed = 2.5f;
     public float runSpeed = 8f;
     public float jumpHeight = 2f;
     public float gravity = -9.81f;
@@ -16,7 +15,6 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
-    private bool isCrouching = false;
 
     void Start()
     {
@@ -34,30 +32,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Movement
-        float speed = walkSpeed;
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            speed = crouchSpeed;
-            if (!isCrouching)
-            {
-                controller.height = 1f;
-                controller.center = new Vector3(0, 0.5f, 0);
-                isCrouching = true;
-            }
-        }
-        else
-        {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                speed = runSpeed;
-            }
-            if (isCrouching)
-            {
-                controller.height = 2f;
-                controller.center = new Vector3(0, 1f, 0);
-                isCrouching = false;
-            }
-        }
+        float speed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
